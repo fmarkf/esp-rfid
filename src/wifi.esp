@@ -10,13 +10,25 @@ void wifiLedOff()
 
 void onWifiConnect(const WiFiEventStationModeConnected &event)
 {
+//	wifiFlag = true;
+//	wifiLedOn();
+//#ifdef DEBUG
+//	Serial.println(F("\n[ INFO ] WiFi STA Connected"));
+//#endif
+//	//mqttReconnectTimer.detach();
+}
+
+void onWifiGotIP(const WiFiEventStationModeGotIP &event)
+{
 	wifiFlag = true;
 	wifiLedOn();
 #ifdef DEBUG
-	Serial.println(F("\n[ INFO ] WiFi STA Connected"));
+	Serial.println(F("\n[ INFO ] WiFi IP Connected"));
 #endif
-	//mqttReconnectTimer.detach();
+	connectToMqtt();
+	writeEvent("INFO", "wifi", "Connected with IP", "onWifiGotIP");
 }
+
 void onWifiDisconnect(const WiFiEventStationModeDisconnected &event)
 {
 	mqttReconnectTimer.detach();

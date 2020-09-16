@@ -86,7 +86,7 @@ extern "C" {
 NtpClient NTP;
 AsyncMqttClient mqttClient;
 Ticker mqttReconnectTimer;
-WiFiEventHandler wifiDisconnectHandler, wifiConnectHandler;
+WiFiEventHandler wifiDisconnectHandler, wifiConnectHandler, wifiOnStationModeGotIPHandler;
 Bounce button;
 
 AsyncWebServer server(80);
@@ -208,6 +208,7 @@ void ICACHE_FLASH_ATTR setup()
 	}
 	wifiDisconnectHandler = WiFi.onStationModeDisconnected(onWifiDisconnect);
 	wifiConnectHandler = WiFi.onStationModeConnected(onWifiConnect);
+	wifiOnStationModeGotIPHandler = WiFi.onStationModeGotIP(onWifiGotIP);
 	configMode = loadConfiguration();
 	if (!configMode)
 	{
